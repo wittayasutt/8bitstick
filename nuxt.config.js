@@ -13,7 +13,7 @@ module.exports = {
 		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
 	},
 	css: ['bulma', '@/assets/scss/main.scss'],
-	loading: { color: '#E60012' },
+	loading: { color: '#ff004a' },
 	build: {
 		postcss: {
 			plugins: {

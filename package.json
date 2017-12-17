@@ -16,7 +16,9 @@
 	"dependencies": {
 		"bulma": "^0.6.1",
 		"jump.js": "^1.0.2",
-		"nuxt": "^1.0.0-rc11"
+		"nuxt": "^1.0.0-rc11",
+		"typed.js": "^2.0.6",
+		"vue-click-outside": "^1.0.7"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",

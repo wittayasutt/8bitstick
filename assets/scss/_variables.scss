@@ -1,10 +1,16 @@
 @import '~bulma/sass/utilities/initial-variables';
 
-$family-primary: 'Comfortaa';
+// $fullhd: 1152px + (2 * $gap);
+$family-primary: 'Kanit';
 
-$primary: #e60012;
+$primary: #ff004a;
+$secondary: #e60012;
+$gray: #f4f4f4;
 
 $info: $blue;
 $success: $green;
 $warning: $yellow;
 $danger: $red;
+
+$radius: 20px;
+$container-padding: ($gap * 2) 0.75rem $gap;

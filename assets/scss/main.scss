@@ -1,20 +1,66 @@
 @import url(../font-awesome/css/font-awesome.min.css);
 
 @font-face {
-	font-family: 'Comfortaa';
-	font-style: normal;
-	font-weight: 400;
-	src: local('Comfortaa'), local('Comfortaa-Regular'),
-		url(../fonts/Comfortaa/Comfortaa-Regular.ttf) format('truetype');
+  font-family: 'lilliput-steps';
+  font-style: normal;
+  font-weight: 400;
+  src: local('lilliput-steps'), local('lilliput-stepssteps'),
+    url(../fonts/lilliput-steps/lilliput-steps.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Kanit';
+  font-style: bold;
+  font-weight: 200;
+  src: local('Kanit'), local('Kanit-Light'),
+    url(../fonts/Kanit/Kanit-Light.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kanit'), local('Kanit-Regular'),
+    url(../fonts/Kanit/Kanit-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Kanit';
+  font-style: bold;
+  font-weight: 600;
+  src: local('Kanit'), local('Kanit-Bold'),
+    url(../fonts/Kanit/Kanit-Bold.ttf) format('truetype');
 }
 
 html {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *,
 *:before,
 *:after {
-	box-sizing: border-box;
-	margin: 0;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+a {
+  color: #ff004a;
+
+  &:hover {
+    // color: #1D8614;
+    color: darken($color: #ff004a, $amount: 10%);
+  }
+}
+
+.pixel {
+  font-family: 'lilliput-steps', 'Athiti';
+}
+
+.title-pixel {
+  font-size: 1.5rem;
+  font-family: 'lilliput-steps', 'Athiti';
+  color: $primary;
+  text-align: center;
+  margin-bottom: $gap;
+  min-height: 36px;
 }
