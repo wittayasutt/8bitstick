@@ -1,19 +1,23 @@
 <template>
-  <nav class="navbar" :class="{ 'is-primary': bottom }" role="navigation" aria-label="main navigation" v-click-outside="hideNav">
+  <nav class="navbar" :class="{ 'is-primary': bottom, 'no-radius': other }" role="navigation" aria-label="main navigation" v-click-outside="hideNav">
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item pixel" href="/">
           8BITSTICK
         </a>
 
-        <button class="button navbar-burger" @click="toggle">
+        <a v-if="other" class="navbar-item pixel black" href="/#product">
+          BACK-TO-PRODUCT
+        </a>
+
+        <button class="button navbar-burger" :class="{ 'no-radius': other }" @click="toggle">
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
 
-      <div class="navbar-end" :class="{ 'is-hidden-touch': hide }">
+      <div v-if="!other" class="navbar-end" :class="{ 'is-hidden-touch': hide }">
         <a class="navbar-item pixel" :class="{ 'active': inStart }" @click="toStart">
           START
         </a>
@@ -24,6 +28,20 @@
           PRODUCT
         </a>
         <a class="navbar-item pixel" :class="{ 'active': inContact }" @click="toContact">
+          CONTACT
+        </a>
+      </div>
+      <div v-else class="navbar-end" :class="{ 'is-hidden-touch': hide }">
+        <a class="navbar-item pixel" href="/#start">
+          START
+        </a>
+        <a class="navbar-item pixel" href="/#howto">
+          HOW-TO
+        </a>
+        <a class="navbar-item pixel" href="/#product">
+          PRODUCT
+        </a>
+        <a class="navbar-item pixel" href="/#contact">
           CONTACT
         </a>
       </div>
@@ -55,7 +73,8 @@
   		'inStart',
   		'inPlay',
   		'inProduct',
-  		'inContact'
+  		'inContact',
+  		'other'
   	],
   	methods: {
   		toggle(bool) {
@@ -95,6 +114,20 @@
   				border-bottom-left-radius: 0;
   				border-bottom-right-radius: 0;
   				transition: $nav-transition;
+  			}
+
+  			.no-radius {
+  				border-top-right-radius: 0;
+  			}
+
+  			.black {
+  				color: #000000;
+  			}
+
+  			&:hover {
+  				a {
+  					color: $primary;
+  				}
   			}
   		}
 
@@ -153,6 +186,11 @@
   			}
   		}
   	}
+  }
+
+  .no-radius {
+  	border-top-left-radius: 0;
+  	border-top-right-radius: 0;
   }
 
   @media screen and (max-width: 1023px) {

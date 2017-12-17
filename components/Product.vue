@@ -4,7 +4,7 @@
       <h2 class="title-pixel title-product"></h2>
       <div class="columns is-multiline">
         <div class="column is-one-quarter is-half-mobile" v-for="(item, index) in product" :key="index">
-          <div class="item" :class="{ fade: fade }">
+          <a :href="'/item/'+item.id" class="item" :class="{ fade: fade }">
             <img :src="item.picture" :alt="item.title">
             <div class="overlay">
               <div class="top">
@@ -18,7 +18,7 @@
                 <div class="buy">ดูรายละเอียด</div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -138,6 +138,7 @@
   								border-radius: $radius;
   								background: $primary;
   								color: #ffffff;
+  								box-shadow: 2px 2px rgba(0, 0, 0, 0.2);
   								transition: 0.2s;
   							}
   						}
