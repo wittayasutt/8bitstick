@@ -8,10 +8,10 @@
       PRESS TO START
     </div>
     <div class="support">รองรับสำหรับ Android, iOS, Windows, macOS, Nintendo Switch และอีกมากมาย</div>
-    <img class="stick stick-1" src="/hello/1.png" alt="8bitstick">
-    <img class="stick stick-2" src="/hello/2.png" alt="8bitstick">
-    <img class="stick stick-3" src="/hello/4.png" alt="8bitstick">
-    <img class="stick stick-4" src="/hello/3.png" alt="8bitstick">
+    <img class="stick stick-1" src="/welcome/1.png" alt="8bitstick">
+    <img class="stick stick-2" src="/welcome/2.png" alt="8bitstick">
+    <img class="stick stick-3" src="/welcome/4.png" alt="8bitstick">
+    <img class="stick stick-4" src="/welcome/3.png" alt="8bitstick">
   </section>
 </template>
 

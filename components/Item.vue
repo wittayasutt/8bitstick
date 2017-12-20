@@ -1,27 +1,49 @@
 <template>
-  <div class="items">
+  <section class="items">
     <div class="container">
       <div class="head">
-        <div class="item pixel">
-          &lt;</div>
-        <div class="item pixel">1/12</div>
-        <div class="item pixel">&gt;</div>
+        <nuxt-link :to="'/item/'+prev" class="item pixel">
+          &lt;</nuxt-link>
+        <div class="item pixel">{{getSelectedID || 0}} / {{length || 0}}</div>
+        <nuxt-link :to="'/item/'+next" class="item pixel" @click="next">&gt;</nuxt-link>
       </div>
       <div class="body">
-        test
-        <nuxt-child :key="$route.params.id" /> test
+        <nuxt-child :key="$route.params.id" />
       </div>
       <div class="foot">
-        <div class="item pixel">
-          &lt;</div>
-        <div class="item pixel">1/12</div>
-        <div class="item pixel">&gt;</div>
+        <nuxt-link :to="'/item/'+prev" class="item pixel">
+          &lt;</nuxt-link>
+        <div class="item pixel">{{getSelectedID || 0}} / {{length || 0}}</div>
+        <nuxt-link :to="'/item/'+next" class="item pixel" @click="next">&gt;</nuxt-link>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+  import { parseInt } from 'lodash'
+
+  export default {
+  	computed: {
+  		...mapGetters({
+  			length: 'getProductLength',
+  			getSelectedID: 'getSelectedID'
+  		}),
+  		prev: function() {
+  			const length = parseInt(this.length)
+  			const getSelectedID = parseInt(this.getSelectedID)
+
+  			return getSelectedID === 1 ? length : getSelectedID - 1
+  		},
+  		next: function() {
+  			const length = parseInt(this.length)
+  			const getSelectedID = parseInt(this.getSelectedID)
+
+  			return getSelectedID === length ? 1 : getSelectedID + 1
+  		}
+  	}
+  }
 </script>
 
 <style lang="scss" scoped>

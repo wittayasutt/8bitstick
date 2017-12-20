@@ -125,7 +125,7 @@
   			}
 
   			&:hover {
-  				a {
+  				.black {
   					color: $primary;
   				}
   			}
