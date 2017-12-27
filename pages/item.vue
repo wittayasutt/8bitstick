@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar :other="true" />
-    <item />
+    <item :showToTop="showToTop" />
   </div>
 </template>
 
@@ -14,6 +14,19 @@
   	components: {
   		Navbar,
   		Item
+  	},
+  	data() {
+  		return {
+  			showToTop: false
+  		}
+  	},
+  	beforeMount() {
+  		window.addEventListener('scroll', this.handleScroll)
+  	},
+  	methods: {
+  		handleScroll() {
+  			this.showToTop = window.scrollY > 400 ? true : false
+  		}
   	}
   }
 </script>

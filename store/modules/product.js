@@ -3,12 +3,16 @@ import platform from '../../data/platform'
 import { find, take, parseInt } from 'lodash'
 
 const state = {
+  fbAppID: '1631147003614147',
   product: [],
   selectedID: -1,
   platform: []
 }
 
 const getters = {
+  getFbAppID: state => {
+    return state.fbAppID
+  },
   getProduct: state => {
     return state.product
   },
@@ -34,6 +38,18 @@ const getters = {
 
     const selectedItem = find(product, item => item.id === selectedID)
     return take(platform, selectedItem.support)
+  },
+  getSuggestionItem: state => {
+    const product = state.product
+    const selectedID = parseInt(state.selectedID)
+    const selectedItem = find(product, item => item.id === selectedID)
+
+    let items = []
+    selectedItem.suggestion.forEach(id => {
+      items.push(find(product, item => item.id === id))
+    })
+
+    return items
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <section class="items">
-    <div class="container">
+    <div id="items" class="container">
       <div class="head">
         <nuxt-link :to="'/item/'+prev" class="item pixel">
           &lt;</nuxt-link>
@@ -17,14 +17,28 @@
         <nuxt-link :to="'/item/'+next" class="item pixel" @click="next">&gt;</nuxt-link>
       </div>
     </div>
+
+    <div class="toTop" :class="{ hide: !showToTop }" @click="toTop">
+      <i class="fa fa-chevron-up"></i>
+    </div>
   </section>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import { parseInt } from 'lodash'
+  import jump from 'jump.js'
 
   export default {
+  	methods: {
+  		toTop() {
+  			jump('#items', {
+  				duration: 1000,
+  				offset: -60
+  			})
+  		}
+  	},
+  	props: ['showToTop'],
   	computed: {
   		...mapGetters({
   			length: 'getProductLength',
@@ -116,6 +130,32 @@
   			flex: 1;
   		}
   	}
+
+  	.toTop {
+  		position: fixed;
+  		bottom: $gap;
+  		right: $gap;
+  		height: 2.5rem;
+  		width: 2.5rem;
+  		display: flex;
+  		justify-content: center;
+  		align-items: center;
+  		padding-bottom: 5px;
+  		background: rgba($gray, 0.6);
+  		border-radius: 5px;
+  		cursor: pointer;
+  		transition: 0.2s;
+
+  		&:hover {
+  			background: rgba($gray, 0.5);
+  		}
+  	}
+
+  	.toTop.hide {
+  		visibility: hidden;
+  		background: rgba($gray, 0);
+  		color: rgba(#000000, 0);
+  	}
   }
 
   @media screen and (max-width: 768px) {
@@ -125,6 +165,17 @@
 
   		.container {
   			margin: 0.75rem;
+  		}
+
+  		.toTop {
+  			bottom: 0.25rem;
+  			right: 1rem;
+  			background: rgba($grey, 0.2);
+  			color: $grey;
+
+  			&:hover {
+  				background: rgba($grey, 0.2);
+  			}
   		}
   	}
   }

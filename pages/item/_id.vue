@@ -7,6 +7,7 @@
       <div class="title-and-desc">
         <div class="text">
           <h1 class="title-8">{{item.title}}</h1>
+          <div class="subtitle-8">{{item.price}} บาท</div>
           <h2 class="brand-and-code">Brand: {{item.brand}}</h2>
           <div class="brand-and-code">Codename: {{item.codename}}</div>
           <div class="brand-and-code">Support:
@@ -35,14 +36,36 @@
       <div v-if="item.support > 4" class="asterisk">*เครื่องเล่น Switch จะไม่รองรับ HD rumble, s-axis motion control และ amiibo scanning</div>
     </div>
 
-    <div id="buy">FORM</div>
+    <buy id="buy" :item='item' />
 
     <img v-for="(screenshot, index) in item.screenshot" :src="screenshot" :alt="item.title" :key="index">
+
+    <div class="nearly">แนะนำสินค้า</div>
+    <div class="columns is-multiline">
+      <div class="column is-half" v-for="(item, index) in suggestionItem" :key="index">
+        <nuxt-link :to="'/item/'+item.id" class="item">
+          <img :src="item.picture" :alt="item.title">
+          <div class="overlay">
+            <div class="top">
+              <p>{{item.brand}}</p>
+              <h2>{{item.title}}</h2>
+            </div>
+            <div class="center">
+            </div>
+            <div class="bottom">
+              <p>{{item.price}} บาท</p>
+              <div class="buy">ดูรายละเอียด</div>
+            </div>
+          </div>
+        </nuxt-link>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import Buy from '~/components/Buy.vue'
   import jump from 'jump.js'
 
   export default {
@@ -61,18 +84,22 @@
   			this.$store.dispatch('initPlatform')
   		}
   	},
+  	components: {
+  		Buy
+  	},
   	methods: {
   		toBuy() {
   			jump('#buy', {
   				duration: 1000,
-  				offset: -100
+  				offset: -60
   			})
   		}
   	},
   	computed: {
   		...mapGetters({
   			item: 'getSelectedItem',
-  			compatible: 'getCompatible'
+  			compatible: 'getCompatible',
+  			suggestionItem: 'getSuggestionItem'
   		})
   	}
   }
@@ -105,11 +132,17 @@
   				flex: 1;
 
   				.title-8 {
+  					font-size: 1.2rem;
+  					line-height: 1;
+  				}
+
+  				.subtitle-8 {
   					font-size: 1.4rem;
+  					color: $primary;
   				}
 
   				.brand-and-code {
-  					font-size: 0.9rem;
+  					font-size: 0.8rem;
   					font-weight: 200;
   					color: $grey;
 
@@ -136,7 +169,7 @@
   	}
 
   	.compatibility {
-  		margin: $gap 0;
+  		margin: $gap 0 0.75rem;
   		padding: 1.5rem 0.75rem 0.75rem;
   		display: flex;
   		flex-flow: row wrap;
@@ -201,6 +234,102 @@
   			}
   		}
   	}
+
+  	.nearly {
+  		text-align: center;
+  		padding: $gap 0 0.75rem;
+  	}
+
+  	.columns {
+  		display: flex;
+  		max-width: $fullhd / 2;
+  		margin: auto;
+  		padding: 0.75rem;
+
+  		.column {
+  			.item {
+  				display: flex;
+  				align-items: center;
+  				position: relative;
+  				cursor: pointer;
+
+  				img {
+  					border-radius: $radius;
+  				}
+
+  				.overlay {
+  					position: absolute;
+  					top: 0;
+  					bottom: 0;
+  					left: 0;
+  					right: 0;
+  					height: 100%;
+  					width: 100%;
+
+  					display: flex;
+  					flex-direction: column;
+  					align-items: center;
+
+  					border: 3px solid transparent;
+  					border-radius: $radius;
+  					transition: 0.2s;
+
+  					.top,
+  					.center,
+  					.bottom {
+  						display: flex;
+  						flex-direction: column;
+  						justify-content: center;
+  						align-items: center;
+  					}
+
+  					.top {
+  						flex: 2;
+  						color: #ffffff;
+
+  						p {
+  							font-size: 0.9rem;
+  						}
+
+  						h2 {
+  							font-size: 1.2rem;
+  						}
+  					}
+
+  					.center {
+  						flex: 4;
+  						opacity: 0;
+  					}
+
+  					.bottom {
+  						flex: 3;
+  						color: $primary;
+
+  						p {
+  							font-size: 1.4rem;
+  							margin-bottom: 0.25rem;
+  						}
+
+  						.buy {
+  							font-size: 1rem;
+  							padding: 0 0.75rem 0.25rem;
+  							border: 3px solid $primary;
+  							border-radius: $radius;
+  							background: $primary;
+  							color: #ffffff;
+  							box-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+  							transition: 0.2s;
+  						}
+  					}
+
+  					&:hover {
+  						border: 3px solid $primary;
+  						box-shadow: 7px 7px rgba(0, 0, 0, 0.2);
+  					}
+  				}
+  			}
+  		}
+  	}
   }
 
   @media screen and (max-width: 1023px) {
@@ -226,6 +355,46 @@
 
   			.platform {
   				width: 50%;
+  			}
+  		}
+
+  		.columns {
+  			.column {
+  				padding-bottom: 0;
+
+  				.item {
+  					.overlay {
+  						.top {
+  							p {
+  								font-size: 0.6rem;
+  							}
+
+  							h2 {
+  								font-size: 0.8rem;
+  							}
+  						}
+
+  						.bottom {
+  							p {
+  								font-size: 1rem;
+  								margin-bottom: 0;
+  							}
+
+  							.buy {
+  								font-size: 0.8rem;
+  								padding: 0 0.5rem 0.1rem;
+  							}
+  						}
+  					}
+  				}
+  			}
+
+  			.column:nth-child(odd) {
+  				padding-right: 0.375rem;
+  			}
+
+  			.column:nth-child(even) {
+  				padding-left: 0.375rem;
   			}
   		}
   	}

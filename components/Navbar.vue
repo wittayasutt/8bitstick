@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <a class="navbar-item pixel facebook is-hidden-touch" href="/" target="_blank">
+    <a class="navbar-item pixel facebook is-hidden-touch" href="https://www.facebook.com/8bitstick-164476634167002/" target="_blank">
       <span class="icon has-text-info">
         <i class="fa fa-facebook-square"></i>
       </span>
