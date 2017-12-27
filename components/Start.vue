@@ -12,7 +12,7 @@
         <a href="#" target="_blank">Best Tech of E3 2017</a> หากคุณเป็นเกมเมอร์มือเก๋า พร้อมเปลี่ยนโทรศัพท์ของคุณเป็นเครื่องเล่นเกมคุณภาพ พลาดไม่ได้กับจอยสติ๊กเหล่านี้ !
       </div>
       <div class="more">
-        <a class="button is-primary is-rounded">ซื้อเลย!</a>
+        <nuxt-link to="/item/1" class="button is-primary is-rounded">ซื้อเลย!</nuxt-link>
         <a class="button is-rounded" @click="toProduct">ดูรุ่นต่างๆ</a>
       </div>
     </div>

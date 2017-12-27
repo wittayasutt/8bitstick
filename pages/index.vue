@@ -38,16 +38,21 @@
   		Product,
   		Contact
   	},
+  	created() {
+  		this.$store.dispatch('initProduct')
+  	},
   	beforeMount() {
   		window.addEventListener('scroll', this.handleScroll)
   	},
   	methods: {
   		handleScroll() {
-  			const welcome = this.$refs.welcome.$el.clientHeight
-  			const navbar = this.$refs.navbar.$el.clientHeight
-  			this.navbarBottom = window.scrollY > welcome + navbar ? true : false
+  			if (this.$refs.welcome && this.$refs.navbar) {
+  				const welcome = this.$refs.welcome.$el.clientHeight
+  				const navbar = this.$refs.navbar.$el.clientHeight
+  				this.navbarBottom = window.scrollY > welcome + navbar ? true : false
 
-  			this.checkNavbar()
+  				this.checkNavbar()
+  			}
   		},
   		checkNavbar() {
   			const offset = 500
