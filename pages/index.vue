@@ -8,6 +8,7 @@
       <product id="product" ref="product" :inProduct="inProduct" />
       <contact id="contact" ref="contact" />
     </div>
+    <div id="fb-root"></div>
   </div>
 </template>
 
@@ -19,6 +20,7 @@
   import Product from '~/components/Product.vue'
   import Contact from '~/components/Contact.vue'
   import jump from 'jump.js'
+  import { mapGetters } from 'vuex'
 
   export default {
   	data() {
@@ -44,6 +46,29 @@
   	beforeMount() {
   		window.addEventListener('scroll', this.handleScroll)
   	},
+  	mounted() {
+  		var _this = this
+
+  		window.fbAsyncInit = function() {
+  			FB.init({
+  				appId: _this.fbAppID,
+  				autoLogAppEvents: true,
+  				xfbml: true,
+  				version: 'v2.11'
+  			})
+  		}
+  		;(function(d, s, id) {
+  			var js,
+  				fjs = d.getElementsByTagName(s)[0]
+  			if (d.getElementById(id)) {
+  				return
+  			}
+  			js = d.createElement(s)
+  			js.id = id
+  			js.src = 'https://connect.facebook.net/en_US/sdk.js'
+  			fjs.parentNode.insertBefore(js, fjs)
+  		})(document, 'script', 'facebook-jssdk')
+  	},
   	methods: {
   		handleScroll() {
   			if (this.$refs.welcome && this.$refs.navbar) {
@@ -62,7 +87,7 @@
   			const startBottom = startTop + this.$refs.start.$el.clientHeight
   			const howtoBottom = startBottom + this.$refs.play.$el.clientHeight
   			const productBottom = howtoBottom + this.$refs.product.$el.clientHeight
-  			const contactBottom = contactBottom + this.$refs.contact.$el.clientHeight
+  			const contactBottom = productBottom + this.$refs.contact.$el.clientHeight
 
   			this.inStart =
   				window.scrollY + offset > startTop &&
@@ -105,6 +130,11 @@
   				duration: 1000
   			})
   		}
+  	},
+  	computed: {
+  		...mapGetters({
+  			fbAppID: 'getFbAppID'
+  		})
   	}
   }
 </script>
