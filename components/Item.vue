@@ -4,7 +4,7 @@
       <div class="head">
         <nuxt-link :to="'/item/'+prev" class="item pixel">
           &lt;</nuxt-link>
-        <div class="item pixel">{{getSelectedID || 0}} / {{length || 0}}</div>
+        <div class="item pixel" @click="showAllItems">{{getSelectedID || 0}} / {{length || 0}}</div>
         <nuxt-link :to="'/item/'+next" class="item pixel" @click="next">&gt;</nuxt-link>
       </div>
       <div class="body">
@@ -13,13 +13,43 @@
       <div class="foot">
         <nuxt-link :to="'/item/'+prev" class="item pixel">
           &lt;</nuxt-link>
-        <div class="item pixel">{{getSelectedID || 0}} / {{length || 0}}</div>
+        <div class="item pixel" @click="showAllItems">{{getSelectedID || 0}} / {{length || 0}}</div>
         <nuxt-link :to="'/item/'+next" class="item pixel" @click="next">&gt;</nuxt-link>
       </div>
     </div>
 
     <div class="toTop" :class="{ hide: !showToTop }" @click="toTop">
       <i class="fa fa-chevron-up"></i>
+    </div>
+
+    <div class="modal" :class="{'is-active': show}">
+      <div class="modal-background" @click="hideAllItems"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">CHOOSE YOUR WEAPON</p>
+          <button class="delete" aria-label="close" @click="hideAllItems"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="columns is-multiline">
+            <div class="column is-one-quarter is-half-mobile" v-for="(item, index) in product" :key="index">
+              <nuxt-link :to="'/item/'+item.id" class="item">
+                <img :src="item.picture" :alt="item.title">
+                <div class="overlay">
+                  <div class="top">
+                    <p>{{item.brand}}</p>
+                    <h2>{{item.title}}</h2>
+                  </div>
+                  <div class="center">
+                  </div>
+                  <div class="bottom">
+                    <p>{{item.price}} บาท</p>
+                  </div>
+                </div>
+              </nuxt-link>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </section>
 </template>
@@ -30,17 +60,34 @@
   import jump from 'jump.js'
 
   export default {
+  	data() {
+  		return {
+  			show: false
+  		}
+  	},
+  	created() {
+  		this.$router.afterEach(r => {
+  			this.show = false
+  		})
+  	},
   	methods: {
   		toTop() {
   			jump('#items', {
   				duration: 1000,
   				offset: -60
   			})
+  		},
+  		showAllItems() {
+  			this.show = true
+  		},
+  		hideAllItems() {
+  			this.show = false
   		}
   	},
   	props: ['showToTop'],
   	computed: {
   		...mapGetters({
+  			product: 'getProduct',
   			length: 'getProductLength',
   			getSelectedID: 'getSelectedID'
   		}),
@@ -158,6 +205,100 @@
   	}
   }
 
+  .modal {
+  	.modal-card-head {
+  		border-radius: $radius $radius 0 0;
+
+  		.modal-card-title {
+  			font-size: 1.2rem;
+  			font-family: 'lilliput-steps', 'Athiti';
+  			color: $primary;
+  			text-align: center;
+  		}
+  	}
+
+  	.modal-card-body {
+  		border-radius: 0 0 $radius $radius;
+
+  		.columns {
+  			display: flex;
+
+  			.column {
+  				.item {
+  					display: flex;
+  					align-items: center;
+  					position: relative;
+  					cursor: pointer;
+
+  					img {
+  						border-radius: $radius;
+  					}
+
+  					.overlay {
+  						position: absolute;
+  						top: 0;
+  						bottom: 0;
+  						left: 0;
+  						right: 0;
+  						height: 100%;
+  						width: 100%;
+
+  						display: flex;
+  						flex-direction: column;
+  						align-items: center;
+
+  						border: 3px solid transparent;
+  						border-radius: $radius;
+  						transition: 0.2s;
+
+  						.top,
+  						.center,
+  						.bottom {
+  							display: flex;
+  							flex-direction: column;
+  							justify-content: center;
+  							align-items: center;
+  						}
+
+  						.top {
+  							flex: 2;
+  							color: #ffffff;
+
+  							p {
+  								font-size: 0.5rem;
+  							}
+
+  							h2 {
+  								font-size: 0.7rem;
+  							}
+  						}
+
+  						.center {
+  							flex: 4;
+  							opacity: 0;
+  						}
+
+  						.bottom {
+  							flex: 3;
+  							color: $primary;
+
+  							p {
+  								font-size: 1rem;
+  								margin-bottom: 0.25rem;
+  							}
+  						}
+
+  						&:hover {
+  							border: 3px solid $primary;
+  							box-shadow: 5px 5px rgba(0, 0, 0, 0.2);
+  						}
+  					}
+  				}
+  			}
+  		}
+  	}
+  }
+
   @media screen and (max-width: 768px) {
   	.items {
   		padding-top: 0.75rem;
@@ -175,6 +316,38 @@
 
   			&:hover {
   				background: rgba($grey, 0.2);
+  			}
+  		}
+  	}
+
+  	.modal {
+  		.modal-card-head {
+  			margin-top: calc(52px + 0.75rem);
+  		}
+
+  		.modal-card-body {
+  			.columns {
+  				.column {
+  					padding-bottom: 0;
+
+  					.item {
+  						.overlay {
+  							.bottom {
+  								p {
+  									margin-bottom: 0;
+  								}
+  							}
+  						}
+  					}
+  				}
+
+  				.column:nth-child(odd) {
+  					padding-right: 0.375rem;
+  				}
+
+  				.column:nth-child(even) {
+  					padding-left: 0.375rem;
+  				}
   			}
   		}
   	}

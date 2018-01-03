@@ -7,7 +7,7 @@ export default [
   {
     name: 'iOS',
     detail: 'เวอร์ชั่น 4.0 ขึ้นไป',
-    picture: '/platform/steam.svg'
+    picture: '/platform/ios.svg'
   },
   {
     name: 'Windows',
