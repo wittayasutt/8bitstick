@@ -103,7 +103,12 @@
           </table>
         </div>
 
-        <a class="button is-primary is-rounded" @click="buy">ชำระสินค้า</a>
+        <a class="button is-primary is-rounded" @click="buy">
+          <div class="fb-login">
+            <i class="fa fa-facebook"></i>
+          </div>
+          ชำระสินค้า
+        </a>
         <div class="asterisk">ในการซื้อสินค้าต้องยืนยันตัวตนผ่าน facebook ทางเว็บไซต์จะไม่มีการดึงข้อมูลส่วนตัวต่างๆจากลูกค้ามาใช้งาน และไม่แชร์โพสต์อัตโนมัติ</div>
       </div>
     </div>
@@ -268,6 +273,20 @@
   			.button {
   				width: 80%;
   				margin: auto;
+  				position: relative;
+
+  				.fb-login {
+  					position: absolute;
+  					left: 6px;
+  					background: #ffffff;
+  					height: 24px;
+  					width: 24px;
+  					border-radius: 50%;
+
+  					i {
+  						color: $primary;
+  					}
+  				}
   			}
 
   			.asterisk {
