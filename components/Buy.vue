@@ -204,7 +204,7 @@
   					? response.name
   					: 'N/A'} ได้สั่งซื้อสินค้า`
   				message.product = `ชื่อสินค้า ${_this.item.brand} ${_this.item
-  					.title} ราคา ${commaNumber(_this.itemPrice)}`
+  					.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(_this.itemPrice)}`
 
   				message.addons =
   					_this.addons !== '-'
@@ -228,10 +228,10 @@
   				const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
 
   				FB.api(
-  					`/164476634167002?fields=access_token`,
+  					`/164476634167002?fields=access_token,page_token`,
   					{ accessToken },
   					response => {
-  						// console.log('response', response)
+  						console.log('response', response)
   						console.log(sendMessage)
 
   						_this.show = true
