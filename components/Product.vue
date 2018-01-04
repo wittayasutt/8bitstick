@@ -4,7 +4,7 @@
       <h2 class="title-pixel title-product"></h2>
       <div class="columns is-multiline">
         <div class="column is-one-quarter is-half-mobile" v-for="(item, index) in product" :key="index">
-          <nuxt-link :to="'/item/'+item.id" class="item" :class="{ fade: fade }">
+          <a :href="'/item/'+item.id" class="item" :class="{ fade: fade }">
             <img :src="item.picture" :alt="item.title">
             <div class="overlay">
               <div class="top">
@@ -14,11 +14,11 @@
               <div class="center">
               </div>
               <div class="bottom">
-                <p>{{item.price}} บาท</p>
+                <p>{{commaNumber(item.price)}} บาท</p>
                 <div class="buy">ดูรายละเอียด</div>
               </div>
             </div>
-          </nuxt-link>
+          </a>
         </div>
       </div>
     </div>
@@ -28,6 +28,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import Typed from 'typed.js'
+  import commaNumber from 'comma-number'
 
   export default {
   	data() {
@@ -40,6 +41,11 @@
   		...mapGetters({
   			product: 'getProduct'
   		})
+  	},
+  	methods: {
+  		commaNumber(number) {
+  			return commaNumber(number)
+  		}
   	},
   	watch: {
   		inProduct: function(val) {

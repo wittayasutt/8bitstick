@@ -7,7 +7,7 @@
       <div class="title-and-desc">
         <div class="text">
           <h1 class="title-8">{{item.title}}</h1>
-          <div class="subtitle-8">{{item.price}} บาท</div>
+          <div class="subtitle-8">{{commaNumber(item.price)}} บาท</div>
           <h2 class="brand-and-code">Brand: {{item.brand}}</h2>
           <div class="brand-and-code">Codename: {{item.codename}}</div>
           <div class="brand-and-code">Support:
@@ -53,7 +53,7 @@
             <div class="center">
             </div>
             <div class="bottom">
-              <p>{{item.price}} บาท</p>
+              <p>{{commaNumber(item.price)}} บาท</p>
               <div class="buy">ดูรายละเอียด</div>
             </div>
           </div>
@@ -67,6 +67,7 @@
   import { mapGetters } from 'vuex'
   import Buy from '~/components/Buy.vue'
   import jump from 'jump.js'
+  import commaNumber from 'comma-number'
 
   export default {
   	validate({ params }) {
@@ -93,6 +94,9 @@
   				duration: 1000,
   				offset: -60
   			})
+  		},
+  		commaNumber(number) {
+  			return commaNumber(number)
   		}
   	},
   	computed: {

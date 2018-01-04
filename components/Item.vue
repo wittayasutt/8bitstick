@@ -42,7 +42,7 @@
                   <div class="center">
                   </div>
                   <div class="bottom">
-                    <p>{{item.price}} บาท</p>
+                    <p>{{commaNumber(item.price)}} บาท</p>
                   </div>
                 </div>
               </nuxt-link>
@@ -58,6 +58,7 @@
   import { mapGetters } from 'vuex'
   import { parseInt } from 'lodash'
   import jump from 'jump.js'
+  import commaNumber from 'comma-number'
 
   export default {
   	data() {
@@ -82,6 +83,9 @@
   		},
   		hideAllItems() {
   			this.show = false
+  		},
+  		commaNumber(number) {
+  			return commaNumber(number)
   		}
   	},
   	props: ['showToTop'],
