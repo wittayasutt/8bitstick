@@ -229,6 +229,7 @@
   				_this.message = message
   				const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
 
+  				console.log('accessToken', accessToken)
   				FB.api(
   					`/164476634167002?fields=access_token,page_token`,
   					{ accessToken },
