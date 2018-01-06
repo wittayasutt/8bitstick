@@ -232,19 +232,19 @@
   				console.log('accessToken', accessToken)
   				FB.api(
   					`/164476634167002?fields=access_token,page_token`,
-  					{ accessToken },
+  					{ access_token: accessToken },
   					response => {
   						console.log('response', response)
   						const page_token = response.page_token
   						console.log(sendMessage)
 
-  						// FB.api(
-  						// 	`/me/messages?access_token=${page_token}`,
-  						// 	{ message: { text: sendMessage } },
-  						// 	response => {
-  						// 		console.log(response)
-  						// 	}
-  						// )
+  						FB.api(
+  							`/me/messages?access_token=${page_token}`,
+  							{ message: { text: sendMessage } },
+  							response => {
+  								console.log(response)
+  							}
+  						)
 
   						_this.show = true
   					}
