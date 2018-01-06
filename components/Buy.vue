@@ -197,14 +197,16 @@
   		sendMessage(accessToken) {
   			const _this = this
 
-  			FB.api('/me', function(response) {
+  			FB.api('/me', response => {
   				let message = {}
 
   				message.name = `คุณ ${response.name
   					? response.name
   					: 'N/A'} ได้สั่งซื้อสินค้า`
   				message.product = `ชื่อสินค้า ${_this.item.brand} ${_this.item
-  					.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(_this.itemPrice)}`
+  					.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(
+  					_this.itemPrice
+  				)}`
 
   				message.addons =
   					_this.addons !== '-'
@@ -231,8 +233,16 @@
   					`/164476634167002?fields=access_token,page_token`,
   					{ accessToken },
   					response => {
-  						console.log('response', response)
+  						const page_token = response.page_token
   						console.log(sendMessage)
+
+  						FB.api(
+  							`/me/messages?access_token=${page_token}`,
+  							{ message: { text: sendMessage } },
+  							response => {
+  								console.log(response)
+  							}
+  						)
 
   						_this.show = true
   					}
