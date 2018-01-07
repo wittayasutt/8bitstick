@@ -243,8 +243,8 @@
   							{
   								recipient: { id: response.id },
   								message: { text: sendMessage },
-  								accessToken: response.page_token,
-  								access_token: response.page_token
+  								accessToken: accessToken,
+  								access_token: accessToken
   							},
   							response => {
   								console.log(response)
