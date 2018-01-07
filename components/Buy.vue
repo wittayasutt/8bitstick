@@ -197,11 +197,11 @@
   		sendMessage(accessToken) {
   			const _this = this
 
-  			FB.api('/me', response => {
+  			FB.api('/me', me_response => {
   				let message = {}
 
-  				message.name = `คุณ ${response.name
-  					? response.name
+  				message.name = `คุณ ${me_response.name
+  					? me_response.name
   					: 'N/A'} ได้สั่งซื้อสินค้า`
   				message.product = `ชื่อสินค้า ${_this.item.brand} ${_this.item
   					.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(
@@ -229,29 +229,36 @@
   				_this.message = message
   				const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
 
+  				console.log('me_response', me_response)
+
   				FB.api(
-  					`/164476634167002?fields=access_token,page_token`,
-  					{ accessToken },
-  					response => {
-  						console.log('response', response)
-  						const page_token = response.page_token
-  						console.log(sendMessage)
+  					`/oauth/access_token?client_id=1631147003614147&client_secret=ef9698ad041f1da31ca42dae30c95fc0&grant_type=client_credentials`,
+  					app_response => {
+  						console.log('app_response', app_response)
 
   						FB.api(
-  							`/${response.id}/messages`,
-  							'post',
-  							{
-  								recipient: { id: response.id },
-  								message: { text: sendMessage },
-  								accessToken: accessToken,
-  								access_token: accessToken
-  							},
-  							response => {
-  								console.log(response)
+  							`/164476634167002?fields=access_token,page_token`,
+  							{ accessToken },
+  							page_response => {
+  								const page_id = page_response.page_token
+
+  								FB.api(
+  									`/${page_id}/messages`,
+  									'post',
+  									{
+  										recipient: { id: page_id },
+  										message: { text: sendMessage },
+  										accessToken: accessToken,
+  										access_token: accessToken
+  									},
+  									response => {
+  										console.log(response)
+  									}
+  								)
+
+  								_this.show = true
   							}
   						)
-
-  						_this.show = true
   					}
   				)
   			})
