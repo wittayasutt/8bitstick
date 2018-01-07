@@ -229,6 +229,7 @@
   				_this.message = message
   				const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
 
+  				console.log('accessToken', accessToken)
   				console.log('me_response', me_response)
 
   				FB.api(
@@ -241,7 +242,7 @@
   							`/164476634167002?fields=access_token,page_token`,
   							{ accessToken },
   							page_response => {
-  								const page_id = page_response.page_token
+  								const page_id = page_response.id
 
   								FB.api(
   									`/${page_id}/messages`,
