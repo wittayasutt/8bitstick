@@ -238,10 +238,10 @@
   						console.log(sendMessage)
 
   						FB.api(
-  							`/164476634167002/messages`,
+  							`/${response.id}/messages`,
   							'post',
   							{
-  								recipient: { id: response.page_token },
+  								recipient: { id: response.id },
   								message: { text: sendMessage }
   							},
   							response => {
