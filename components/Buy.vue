@@ -239,32 +239,32 @@
   						client_secret: 'ef9698ad041f1da31ca42dae30c95fc0',
   						grant_type: 'client_credentials'
   					},
-  					app_response => {
-  						console.log('app_response', app_response)
+  					function(response) {
+  						console.log('app_response', response)
 
-  						FB.api(
-  							`/164476634167002?fields=access_token,page_token`,
-  							{ accessToken },
-  							page_response => {
-  								const page_id = page_response.id
+  						// FB.api(
+  						// 	`/164476634167002?fields=access_token,page_token`,
+  						// 	{ accessToken },
+  						// 	page_response => {
+  						// 		const page_id = page_response.id
 
-  								FB.api(
-  									`/${page_id}/messages`,
-  									'post',
-  									{
-  										recipient: { id: page_id },
-  										message: { text: sendMessage },
-  										accessToken: accessToken,
-  										access_token: accessToken
-  									},
-  									response => {
-  										console.log(response)
-  									}
-  								)
+  						// 		FB.api(
+  						// 			`/${page_id}/messages`,
+  						// 			'post',
+  						// 			{
+  						// 				recipient: { id: page_id },
+  						// 				message: { text: sendMessage },
+  						// 				accessToken: accessToken,
+  						// 				access_token: accessToken
+  						// 			},
+  						// 			response => {
+  						// 				console.log(response)
+  						// 			}
+  						// 		)
 
-  								_this.show = true
-  							}
-  						)
+  						// 		_this.show = true
+  						// 	}
+  						// )
   					}
   				)
   			})
