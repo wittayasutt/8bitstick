@@ -152,6 +152,7 @@
   import { mapGetters } from 'vuex'
   import { parseInt } from 'lodash'
   import commaNumber from 'comma-number'
+  import login from 'facebook-chat-api'
 
   export default {
   	data() {
@@ -197,77 +198,85 @@
   		sendMessage(accessToken) {
   			const _this = this
 
-  			FB.api('/me', me_response => {
-  				let message = {}
+  			login({ email: 'wittayasutt@gmail.com', password: 'azure41848897' }, (err, api) => {
+  				if (err) return console.error(err)
 
-  				message.name = `คุณ ${me_response.name
-  					? me_response.name
-  					: 'N/A'} ได้สั่งซื้อสินค้า`
-  				message.product = `ชื่อสินค้า ${_this.item.brand} ${_this.item
-  					.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(
-  					_this.itemPrice
-  				)}`
-
-  				message.addons =
-  					_this.addons !== '-'
-  						? `เพิ่มอุปกรณ์ ${_this.item.addons[0].title} ราคา ${commaNumber(
-  								_this.item.addons[0].price
-  							)}`
-  						: 'เพิ่มอุปกรณ์ -'
-  				message.post = `การจัดส่ง ${_this.post} ราคา ${commaNumber(
-  					_this.postPrice
-  				)}`
-  				message.price = `รวมราคา ${commaNumber(_this.totalPrice)}`
-  				message.recipient = `จัดส่ง ${_this.recipient
-  					? _this.recipient
-  					: 'ไม่ระบุชื่อผู้รับ'}`
-  				message.location = _this.location
-  					? _this.location
-  					: 'ไม่ระบุที่อยู่จัดส่ง'
-  				message.tel = `ติดต่อ ${_this.tel ? _this.tel : '-'}`
-
-  				_this.message = message
-  				const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
-
-  				console.log('accessToken', accessToken)
-  				console.log('me_response', me_response)
-
-  				FB.api(
-  					`/oauth/access_token`,
-  					{
-  						client_id: '1631147003614147',
-  						client_secret: 'ef9698ad041f1da31ca42dae30c95fc0',
-  						grant_type: 'client_credentials'
-  					},
-  					function(response) {
-  						console.log('app_response', response)
-
-  						// FB.api(
-  						// 	`/164476634167002?fields=access_token,page_token`,
-  						// 	{ accessToken },
-  						// 	page_response => {
-  						// 		const page_id = page_response.id
-
-  						// 		FB.api(
-  						// 			`/${page_id}/messages`,
-  						// 			'post',
-  						// 			{
-  						// 				recipient: { id: page_id },
-  						// 				message: { text: sendMessage },
-  						// 				accessToken: accessToken,
-  						// 				access_token: accessToken
-  						// 			},
-  						// 			response => {
-  						// 				console.log(response)
-  						// 			}
-  						// 		)
-
-  						// 		_this.show = true
-  						// 	}
-  						// )
-  					}
-  				)
+  				var yourID = '164476634167002'
+  				var msg = 'Hey!'
+  				api.sendMessage(msg, yourID)
   			})
+
+  			// FB.api('/me', me_response => {
+  			// 	let message = {}
+
+  			// 	message.name = `คุณ ${me_response.name
+  			// 		? me_response.name
+  			// 		: 'N/A'} ได้สั่งซื้อสินค้า`
+  			// 	message.product = `ชื่อสินค้า ${_this.item.brand} ${_this.item
+  			// 		.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(
+  			// 		_this.itemPrice
+  			// 	)}`
+
+  			// 	message.addons =
+  			// 		_this.addons !== '-'
+  			// 			? `เพิ่มอุปกรณ์ ${_this.item.addons[0].title} ราคา ${commaNumber(
+  			// 					_this.item.addons[0].price
+  			// 				)}`
+  			// 			: 'เพิ่มอุปกรณ์ -'
+  			// 	message.post = `การจัดส่ง ${_this.post} ราคา ${commaNumber(
+  			// 		_this.postPrice
+  			// 	)}`
+  			// 	message.price = `รวมราคา ${commaNumber(_this.totalPrice)}`
+  			// 	message.recipient = `จัดส่ง ${_this.recipient
+  			// 		? _this.recipient
+  			// 		: 'ไม่ระบุชื่อผู้รับ'}`
+  			// 	message.location = _this.location
+  			// 		? _this.location
+  			// 		: 'ไม่ระบุที่อยู่จัดส่ง'
+  			// 	message.tel = `ติดต่อ ${_this.tel ? _this.tel : '-'}`
+
+  			// 	_this.message = message
+  			// 	const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
+
+  			// 	console.log('accessToken', accessToken)
+  			// 	console.log('me_response', me_response)
+
+  			// 	FB.api(
+  			// 		`/oauth/access_token`,
+  			// 		{
+  			// 			client_id: '1631147003614147',
+  			// 			client_secret: 'ef9698ad041f1da31ca42dae30c95fc0',
+  			// 			grant_type: 'client_credentials'
+  			// 		},
+  			// 		function(response) {
+  			// 			console.log('app_response', response)
+
+  			// 			// FB.api(
+  			// 			// 	`/164476634167002?fields=access_token,page_token`,
+  			// 			// 	{ accessToken },
+  			// 			// 	page_response => {
+  			// 			// 		const page_id = page_response.id
+
+  			// 			// 		FB.api(
+  			// 			// 			`/${page_id}/messages`,
+  			// 			// 			'post',
+  			// 			// 			{
+  			// 			// 				recipient: { id: page_id },
+  			// 			// 				message: { text: sendMessage },
+  			// 			// 				accessToken: accessToken,
+  			// 			// 				access_token: accessToken
+  			// 			// 			},
+  			// 			// 			response => {
+  			// 			// 				console.log(response)
+  			// 			// 			}
+  			// 			// 		)
+
+  			// 			// 		_this.show = true
+  			// 			// 	}
+  			// 			// )
+  			// 		}
+  			// 	)
+  			// })
   		},
   		hideCheckout() {
   			this.show = false
