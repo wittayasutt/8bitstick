@@ -233,6 +233,7 @@
 
   				FB.api(
   					`/oauth/access_token?client_id=1631147003614147&client_secret=ef9698ad041f1da31ca42dae30c95fc0&grant_type=client_credentials`,
+  					{ accessToken },
   					app_response => {
   						console.log('app_response', app_response)
 
