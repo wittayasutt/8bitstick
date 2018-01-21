@@ -16,7 +16,7 @@
 	"dependencies": {
 		"bulma": "^0.6.1",
 		"comma-number": "^2.0.0",
-		"facebook-chat-api": "^1.4.0",
+		"copy-text-to-clipboard": "^1.0.4",
 		"jump.js": "^1.0.2",
 		"nuxt": "^1.0.0-rc11",
 		"typed.js": "^2.0.6",

@@ -8,7 +8,7 @@
         <nuxt-link :to="'/item/'+next" class="item pixel" @click="next">&gt;</nuxt-link>
       </div>
       <div class="body">
-        <nuxt-child :key="$route.params.id" />
+        <nuxt-child :key="$route.params.id" :showBuyFb="showBuyFb" />
       </div>
       <div class="foot">
         <nuxt-link :to="'/item/'+prev" class="item pixel">
@@ -51,6 +51,42 @@
         </section>
       </div>
     </div>
+
+    <div class="modal" :class="{'is-active': showFb}">
+      <div class="modal-background" @click="hideBuyFb"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title-buy">สั่งสินค้าทาง facebook</p>
+          <button class="delete" aria-label="close" @click="hideBuyFb"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="send">
+            <div class="send-head">{{copyTextHead}}</div>
+            <div class="send-data">
+              <div class="copy">
+                <a class="button is-primary is-rounded btn-copy" @click="copy">
+                  {{copyText}}
+                </a>
+                <div class="message" @click="copy">
+                  <p>{{message.name}}</p>
+                  <p>{{message.product}}</p>
+                  <p>{{message.addons}}</p>
+                  <p>{{message.post}}</p>
+                  <p>{{message.price}}</p><br>
+
+                  <p>{{message.recipient}}</p>
+                  <p>{{message.location}}</p>
+                  <p>{{message.tel}}</p>
+                </div>
+              </div>
+              <i class="fa fa-angle-down"></i>
+              <div class="fb-page" data-tabs="messages" data-href="https://www.facebook.com/8bitstick-164476634167002/" data-width="330" data-hide-cover="false">
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -59,17 +95,37 @@
   import { parseInt } from 'lodash'
   import jump from 'jump.js'
   import commaNumber from 'comma-number'
+  import copy from 'copy-text-to-clipboard'
 
   export default {
   	data() {
   		return {
-  			show: false
+  			show: false,
+  			showFb: false,
+  			copyText: 'คัดลอกข้อความ',
+  			copyTextHead: 'คัดลอกข้อความ ไปใส่ช่องด้านขวาและทำการส่ง',
+  			message: {
+  				name: '-',
+  				product: '-',
+  				addons: '-',
+  				post: '-',
+  				price: 0,
+  				recipient: '-',
+  				location: '-',
+  				tel: '-'
+  			},
+  			sendMessage: ''
   		}
   	},
   	created() {
   		this.$router.afterEach(r => {
   			this.show = false
   		})
+  	},
+  	mounted() {
+  		if (window.innerWidth <= 768) {
+  			this.copyTextHead = 'คัดลอกข้อความ ไปใส่ช่องด้านล่างและทำการส่ง'
+  		}
   	},
   	methods: {
   		toTop() {
@@ -83,6 +139,18 @@
   		},
   		hideAllItems() {
   			this.show = false
+  		},
+  		showBuyFb(message, sendMessage) {
+  			this.showFb = true
+  			this.message = message
+  			this.sendMessage = sendMessage
+  		},
+  		hideBuyFb() {
+  			this.showFb = false
+  		},
+  		copy() {
+  			copy(this.sendMessage)
+  			this.copyText = 'คัดลอกแล้ว'
   		},
   		commaNumber(number) {
   			return commaNumber(number)
@@ -210,8 +278,12 @@
   }
 
   .modal {
+  	.modal-card {
+  		width: $tablet;
+  	}
+
   	.modal-card-head {
-  		border-radius: $radius $radius 0 0;
+  		border-radius: $item-radius $item-radius 0 0;
 
   		.modal-card-title {
   			font-size: 1.2rem;
@@ -219,10 +291,17 @@
   			color: $primary;
   			text-align: center;
   		}
+
+  		.modal-card-title-buy {
+  			flex: 1;
+  			font-size: 1.2rem;
+  			text-align: center;
+  		}
   	}
 
   	.modal-card-body {
-  		border-radius: 0 0 $radius $radius;
+  		border-radius: 0 0 $item-radius $item-radius;
+  		padding: 0.75rem;
 
   		.columns {
   			display: flex;
@@ -235,7 +314,7 @@
   					cursor: pointer;
 
   					img {
-  						border-radius: $radius;
+  						border-radius: $item-radius;
   					}
 
   					.overlay {
@@ -252,7 +331,7 @@
   						align-items: center;
 
   						border: 3px solid transparent;
-  						border-radius: $radius;
+  						border-radius: $item-radius;
   						transition: 0.2s;
 
   						.top,
@@ -300,6 +379,48 @@
   				}
   			}
   		}
+
+  		.send {
+  			display: flex;
+  			flex-direction: column;
+
+  			.send-head {
+  				text-align: center;
+  				margin-bottom: 0.75rem;
+  			}
+
+  			.send-data {
+  				display: flex;
+  				flex-direction: row;
+
+  				.btn-copy {
+  					margin: 0 0 0.75rem;
+  				}
+
+  				.copy {
+  					flex: 1;
+  					display: flex;
+  					flex-direction: column;
+  					padding-right: 0.75rem;
+
+  					.message {
+  						flex: 1;
+  						padding: 0.75rem;
+  						background: $gray;
+  						border: 2px dashed $primary;
+  						cursor: pointer;
+  					}
+  				}
+
+  				.fa-angle-down {
+  					display: none;
+  				}
+
+  				.fb-page {
+  					text-align: center;
+  				}
+  			}
+  		}
   	}
   }
 
@@ -325,8 +446,12 @@
   	}
 
   	.modal {
+  		.modal-card {
+  			margin: 0 0.75rem;
+  		}
+
   		.modal-card-head {
-  			margin-top: calc(52px + 0.75rem);
+  			margin-top: calc(52px + 0.25rem);
   		}
 
   		.modal-card-body {
@@ -351,6 +476,27 @@
 
   				.column:nth-child(even) {
   					padding-left: 0.375rem;
+  				}
+  			}
+
+  			.send {
+  				.send-data {
+  					flex-direction: column;
+
+  					.copy {
+  						padding-right: 0;
+
+  						.message {
+  							margin-bottom: 0.75rem;
+  						}
+  					}
+
+  					.fa-angle-down {
+  						display: flex;
+  						margin: 0 auto 0.75rem;
+  						color: $primary;
+  						font-size: 2rem;
+  					}
   				}
   			}
   		}

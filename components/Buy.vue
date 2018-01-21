@@ -103,13 +103,23 @@
           </table>
         </div>
 
-        <a class="button is-primary is-rounded" @click="buy">
+        <a class="button is-primary is-rounded" @click="buyFB">
           <div class="fb-login">
             <i class="fa fa-facebook"></i>
           </div>
-          ชำระสินค้า
+          สั่งสินค้าทาง facebook
         </a>
-        <div class="asterisk">ในการซื้อสินค้าต้องยืนยันตัวตนผ่าน facebook ทางเว็บไซต์จะไม่มีการดึงข้อมูลส่วนตัวต่างๆจากลูกค้ามาใช้งาน และไม่แชร์โพสต์อัตโนมัติ</div>
+        <!-- <div class="asterisk">* เป็นช่องทางชำระสินค้าที่สะดวกกว่า</div> -->
+        <!-- <div class="or">หรือ</div>
+        <div class="control email">
+          <input class="input" type="text" placeholder="Email ที่ต้องให้ติดต่อกลับ" v-model="email">
+        </div>
+        <a class="button is-primary is-rounded" @click="buyEmail">
+          <div class="fb-login">
+            <i class="fa fa-envelope"></i>
+          </div>
+          ชำระสินค้าทาง Email
+        </a> -->
       </div>
     </div>
 
@@ -135,13 +145,6 @@
             <p>{{message.location}}</p>
             <p>{{message.tel}}</p>
           </div>
-
-          <a class="button is-info is-rounded" href="https://www.facebook.com/8bitstick-164476634167002/" target="_blank">
-            <div class="fb-login">
-              <i class="fa fa-facebook"></i>
-            </div>
-            ไปยัง facebook เพื่อชำระสินค้า
-          </a>
         </section>
       </div>
     </div>
@@ -152,7 +155,6 @@
   import { mapGetters } from 'vuex'
   import { parseInt } from 'lodash'
   import commaNumber from 'comma-number'
-  import login from 'facebook-chat-api'
 
   export default {
   	data() {
@@ -164,6 +166,7 @@
   			location: '',
   			post: 'ลงทะเบียน',
   			tel: '',
+  			email: '',
   			show: false,
   			message: {
   				name: '-',
@@ -174,109 +177,65 @@
   				recipient: '-',
   				location: '-',
   				tel: '-'
-  			}
+  			},
+  			sendMessage: ''
   		}
   	},
-  	props: ['item'],
+  	props: ['item', 'showBuyFb'],
   	methods: {
-  		buy() {
-  			const _this = this
+  		buyFB() {
+  			this.setMessage()
 
-  			FB.getLoginStatus(function(response) {
-  				// console.log('response', response)
-  				if (response.status === 'connected') {
-  					_this.sendMessage(response.authResponse.accessToken)
-  				} else {
-  					FB.login(function(response) {
-  						if (response.authResponse) {
-  							_this.sendMessage(response.authResponse.accessToken)
-  						}
-  					})
-  				}
-  			})
-  		},
-  		sendMessage(accessToken) {
-  			const _this = this
-
-  			login({ email: 'wittayasutt@gmail.com', password: 'azure41848897' }, (err, api) => {
-  				if (err) return console.error(err)
-
-  				var yourID = '164476634167002'
-  				var msg = 'Hey!'
-  				api.sendMessage(msg, yourID)
-  			})
-
-  			// FB.api('/me', me_response => {
-  			// 	let message = {}
-
-  			// 	message.name = `คุณ ${me_response.name
-  			// 		? me_response.name
-  			// 		: 'N/A'} ได้สั่งซื้อสินค้า`
-  			// 	message.product = `ชื่อสินค้า ${_this.item.brand} ${_this.item
-  			// 		.title} ${_this.type} จำนวน ${_this.number} ราคา ${commaNumber(
-  			// 		_this.itemPrice
-  			// 	)}`
-
-  			// 	message.addons =
-  			// 		_this.addons !== '-'
-  			// 			? `เพิ่มอุปกรณ์ ${_this.item.addons[0].title} ราคา ${commaNumber(
-  			// 					_this.item.addons[0].price
-  			// 				)}`
-  			// 			: 'เพิ่มอุปกรณ์ -'
-  			// 	message.post = `การจัดส่ง ${_this.post} ราคา ${commaNumber(
-  			// 		_this.postPrice
-  			// 	)}`
-  			// 	message.price = `รวมราคา ${commaNumber(_this.totalPrice)}`
-  			// 	message.recipient = `จัดส่ง ${_this.recipient
-  			// 		? _this.recipient
-  			// 		: 'ไม่ระบุชื่อผู้รับ'}`
-  			// 	message.location = _this.location
-  			// 		? _this.location
-  			// 		: 'ไม่ระบุที่อยู่จัดส่ง'
-  			// 	message.tel = `ติดต่อ ${_this.tel ? _this.tel : '-'}`
-
-  			// 	_this.message = message
-  			// 	const sendMessage = `${message.name}\n${message.product}\n${message.addons}\n${message.post}\n${message.price}\n\n${message.recipient}\n${message.location}\n${message.tel}`
-
-  			// 	console.log('accessToken', accessToken)
-  			// 	console.log('me_response', me_response)
-
-  			// 	FB.api(
-  			// 		`/oauth/access_token`,
-  			// 		{
-  			// 			client_id: '1631147003614147',
-  			// 			client_secret: 'ef9698ad041f1da31ca42dae30c95fc0',
-  			// 			grant_type: 'client_credentials'
-  			// 		},
-  			// 		function(response) {
-  			// 			console.log('app_response', response)
-
-  			// 			// FB.api(
-  			// 			// 	`/164476634167002?fields=access_token,page_token`,
-  			// 			// 	{ accessToken },
-  			// 			// 	page_response => {
-  			// 			// 		const page_id = page_response.id
-
-  			// 			// 		FB.api(
-  			// 			// 			`/${page_id}/messages`,
-  			// 			// 			'post',
-  			// 			// 			{
-  			// 			// 				recipient: { id: page_id },
-  			// 			// 				message: { text: sendMessage },
-  			// 			// 				accessToken: accessToken,
-  			// 			// 				access_token: accessToken
-  			// 			// 			},
-  			// 			// 			response => {
-  			// 			// 				console.log(response)
-  			// 			// 			}
-  			// 			// 		)
-
-  			// 			// 		_this.show = true
-  			// 			// 	}
-  			// 			// )
-  			// 		}
-  			// 	)
+  			// const _this = this
+  			// FB.getLoginStatus(function(response) {
+  			// 	if (response.status === 'connected') {
+  			// 		_this.setMessage()
+  			// 	} else {
+  			// 		FB.login(function(response) {
+  			// 			if (response.authResponse) {
+  			// 				_this.setMessage()
+  			// 			}
+  			// 		})
+  			// 	}
   			// })
+  		},
+  		buyEmail() {
+  			this.setMessage()
+  			this.show = true
+  		},
+  		setMessage() {
+  			let message = {}
+
+  			message.name = `คุณ ${
+  				this.recipient ? this.recipient : '-'
+  			} ได้สั่งซื้อสินค้า`
+  			message.product = `ชื่อสินค้า ${this.item.brand} ${this.item.title} ${
+  				this.type ? this.type : ''
+  			} จำนวน ${this.number} ชิ้น ราคา ${commaNumber(this.itemPrice)}`
+  			message.addons =
+  				this.addons !== '-'
+  					? `เพิ่มอุปกรณ์ ${this.item.addons[0].title} ราคา ${commaNumber(
+  							this.item.addons[0].price
+  						)}`
+  					: 'เพิ่มอุปกรณ์ -'
+  			message.post = `การจัดส่ง ${this.post} ราคา ${commaNumber(
+  				this.postPrice
+  			)}`
+  			message.price = `รวมราคา ${commaNumber(this.totalPrice)}`
+  			message.recipient = `จัดส่ง ${
+  				this.recipient ? this.recipient : 'ไม่ระบุชื่อผู้รับ'
+  			}`
+  			message.location = this.location ? this.location : 'ไม่ระบุที่อยู่จัดส่ง'
+  			message.tel = `ติดต่อ ${this.tel ? this.tel : '-'}`
+
+  			this.message = message
+  			this.sendMessage = `${message.name}\n${message.product}\n${
+  				message.addons
+  			}\n${message.post}\n${message.price}\n\n${message.recipient}\n${
+  				message.location
+  			}\n${message.tel}`
+
+  			this.showBuyFb(this.message, this.sendMessage)
   		},
   		hideCheckout() {
   			this.show = false
@@ -412,6 +371,16 @@
   				font-weight: 200;
   				margin: 0.75rem auto;
   				text-align: center;
+  			}
+
+  			.or {
+  				text-align: center;
+  				margin: 0.75rem auto;
+  			}
+
+  			.email {
+  				width: 80%;
+  				margin: auto auto 0.75rem;
   			}
   		}
   	}

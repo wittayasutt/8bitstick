@@ -36,9 +36,9 @@
       <div v-if="item.support > 4" class="asterisk">*เครื่องเล่น Switch จะไม่รองรับ HD rumble, s-axis motion control และ amiibo scanning</div>
     </div>
 
-    <buy id="buy" :item='item' />
+    <buy id="buy" :item='item' :showBuyFb="showBuyFb" />
 
-    <img v-for="(screenshot, index) in item.screenshot" :src="screenshot" :alt="item.title" :key="index">
+    <img class="screenshot" v-for="(screenshot, index) in item.screenshot" :src="screenshot" :alt="item.title" :key="index">
 
     <div class="nearly">แนะนำสินค้า</div>
     <div class="columns is-multiline">
@@ -88,6 +88,7 @@
   	components: {
   		Buy
   	},
+  	props: ['showBuyFb'],
   	methods: {
   		toBuy() {
   			jump('#buy', {
@@ -237,7 +238,11 @@
   				}
   			}
   		}
-  	}
+    }
+
+    .screenshot {
+      width: 100%;
+    }
 
   	.nearly {
   		text-align: center;

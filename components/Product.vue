@@ -15,7 +15,7 @@
               </div>
               <div class="bottom">
                 <p>{{commaNumber(item.price)}} บาท</p>
-                <div class="buy">ดูรายละเอียด</div>
+                <!-- <div class="buy">ดูรายละเอียด</div> -->
               </div>
             </div>
           </a>
@@ -137,7 +137,7 @@
   							color: $primary;
 
   							p {
-  								font-size: 1.4rem;
+  								font-size: 1.5rem;
   								margin-bottom: 0.25rem;
   							}
 
