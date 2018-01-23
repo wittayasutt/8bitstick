@@ -86,6 +86,10 @@
 					{
 						property: 'og:image',
 						content: 'https://image.ibb.co/cwFmpG/thumbnail.jpg'
+					},
+					{
+						property: 'fb:app_id',
+						content: '1631147003614147'
 					}
 				]
 			}
