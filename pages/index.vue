@@ -85,7 +85,7 @@
 					},
 					{
 						property: 'og:image',
-						content: 'http://www.8bitstick.com/welcome/thumbnail.jpg'
+						content: 'https://image.ibb.co/cwFmpG/thumbnail.jpg'
 					}
 				]
 			}
