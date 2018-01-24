@@ -6,10 +6,6 @@
           8BITSTICK
         </a>
 
-        <a v-if="other" class="navbar-item pixel black" href="/#product">
-          BACK-TO-PRODUCT
-        </a>
-
         <button class="button navbar-burger" :class="{ 'no-radius': other }" @click="toggle">
           <span></span>
           <span></span>
